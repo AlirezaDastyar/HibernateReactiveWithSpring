@@ -1,17 +1,13 @@
 package space.dastyar.hibernatereactive.service
 
 import space.dastyar.hibernatereactive.model.Student
-import space.dastyar.hibernatereactive.persistence.StudentDAO
 import io.smallrye.mutiny.Multi
 import io.smallrye.mutiny.Uni
-import io.smallrye.mutiny.converters.multi.MultiReactorConverters.toFlux
-import io.smallrye.mutiny.converters.uni.UniReactorConverters.toMono
 import org.springframework.stereotype.Service
-import reactor.core.publisher.Flux
-import reactor.core.publisher.Mono
+import space.dastyar.hibernatereactive.persistence.DAO
 
 @Service
-class StudentService(val dao: StudentDAO) {
+class StudentService(private val dao: DAO<Student,Long>) {
 
     fun getAll(): Multi<Student?> {
         return dao.getAll()
