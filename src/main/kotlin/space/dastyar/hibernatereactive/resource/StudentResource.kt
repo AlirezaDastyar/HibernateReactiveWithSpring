@@ -21,21 +21,21 @@ class StudentResource(val students: StudentService) {
     @PostMapping
     fun addStudent(@RequestBody student: Student): Uni<ResponseEntity<Any>> {
         return students.add(student)
-            .flatMap { stu -> Uni.createFrom().item(created(URI.create("/students/" + stu.id)).build()) };
+            .map { stu -> created(URI.create("/students/" + stu.id)).build() };
     }
 
     @GetMapping("/{id}")
     fun getStudent(@PathVariable id: Long): Uni<ResponseEntity<Student?>> {
-        return students.get(id).flatMap { stu -> Uni.createFrom().item(ok().body(stu)) };
+        return students.get(id).map { stu -> ok().body(stu) };
     }
 
     @DeleteMapping("/{id}")
     fun deleteStudent(@PathVariable id: Long): Uni<ResponseEntity<Any>> {
-        return students.delete(id).flatMap { stu -> Uni.createFrom().item(noContent().build()) };
+        return students.delete(id).map { noContent().build() };
     }
 
     @PutMapping("/{id}")
     fun updateStudent(@PathVariable id: Long, @RequestBody student: Student): Uni<ResponseEntity<Any>> {
-        return students.update(student.apply { this.id = id }).flatMap { stu -> Uni.createFrom().item(noContent().build()) };
+        return students.update(student.apply { this.id = id }).map { noContent().build() };
     }
 }
